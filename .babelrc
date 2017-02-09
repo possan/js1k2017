@@ -1,0 +1,11 @@
+{
+	"plugins": [
+		["minify-mangle-names", {
+			topLevel: true,
+			blacklist: [ 'a', 'b', 'c', 'd' ]
+		}],
+		["transform-dead-code-elimination", {
+			"experimentalInlining": true
+		}]
+	]
+}
