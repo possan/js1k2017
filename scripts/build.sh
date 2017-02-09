@@ -11,8 +11,8 @@ cat src/html/shim.html | \
 figlet -fnancyj -w800 $(stat -f "%z" tmp/all.js)b orig
 
 # uglify-ish
-$(npm bin)/babel --no-comments  --minify --compact -o tmp/all.min.in.js tmp/all.js
-cat tmp/all.min.in.js | sed -e 's/var\ [a-zA-Z]\;//g' >tmp/all.min.js
+$(npm bin)/babel --no-comments --minify --compact -o tmp/all.min.in.js tmp/all.js
+cat tmp/all.min.in.js | sed -e 's/var\ [a-zA-Z]\;//g' | sed -e "s/'\+'//g" >tmp/all.min.js
 
 cat src/html/shim.html | \
 	sed -e '/{CODE}/ {' -e 'r tmp/all.min.js' -e 'D' -e '}' | \

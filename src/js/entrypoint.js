@@ -1,4 +1,4 @@
-var a,b,c,d;
+// var a,b,c,d;
 // a = canvas;
 // b = window.body;
 // c = canvas context;
@@ -14,131 +14,89 @@ var n1
 var n2
 var i
 var j
+var grid
+var grid2
+var e
+var v
+var all
 
-var flo = (x) => Math.floor(x)
-var rx = (m) => ~~(Math.random() * m)
-var rx3 = () => rx3(3)
+rx = (m) => ~~(Math.random() * m)
 
-// var chars = '0123456789'
-var grid = []
-for(j=0; j<9; j++) {
-	for(var i=0; i<9; i++) {
-		grid.push(((i + j * 3 + flo(j / 3)) % 9) + 1);
-	}
+
+ht = '<div><h1>SOD1KU</h1>'
+for(j=0; j<81; j++) {
+	ht += '<input name=c' + j + ' onclick=this.select() onkeyup=C() maxlength=1>'
+	if (j % 3 > 1) ht += '<f></f>'
+	if (j % 27 > 25) ht += '<e></e>'
+	// ht += (j % 3 > 1) ? '<f></f>' : ''
+	// ht += (j % 27 > 25) ? '<e></e>' : ''
 }
 
-// var s1 = () => {
+ht += 'Difficulty: <input type=range id=df onchange=R() /><style>'
 
-// 	// [ grid[n1], grid[n2] ] = [ grid[n2], grid[n1] ];
-
-// 	// temp = grid[n1]
-// 	// grid[n1] = grid[n2]
-// 	// grid[n2] = temp
-// }
-
-// var s2 = () => {
-// 	nb = rx(3) * 3
-// 	n1 = rx(3) + nb
-// 	n2 = rx(3) + nb
-// }
-
-for(i=0; i<9+rx(99); i++) {
-	nb = rx(3) * 3;
-	n1 = rx(3) + nb;
-	n2 = rx(3) + nb;
-	// [ n1, n2 ] = [ n2, n1 ]
-	// n2 = rx(3) + nb;
-	// for(j=0; j<9; g = grid[j], [ g[n1], g[n2] ] = [ g[n2], g[n1] ], j++);
-}
-
-// grid.map(r => console.log('row', JSON.stringify(r)));
-
-
-// console.log(JSON.stringify(grid))
-
-var g2 = grid.filter(r => true)
-
-for(var k=0; k<2; k++) { // 0 + rx(200); k++) {
-	n1 = rx(9)
-	n2 = rx(9)
-	g2[n1 * 9 + n2] = ' '
-}
-
-// console.log(JSON.stringify(g2))
-
-
-CSS='c,d{display:block}'
-+'c {background-color:#631;display:flex;justify-content:center;align-items:center;align-content:center;width:100%;height:100%;}'
-+'d {width:500px;height:500px;}'
-+'d input{display: inline-block;font-size: 30px;text-align: center;border: 0;margin: 1px;}'
-+'input {color:#888;width:40px;height:40px;}'
-+'input:disabled{color: #000;}'
-+'.bu input {background-color:#f00;}'
-+'.ok input {background-color:#0f0;}'
-+'d i {display:inline-block;width:40px;height:40px;}'
-+'d e {display:block;clear:both;width:40px;height:40px;}'
++'body,input{font:25px arial;text-align:center}'
++'body{background:#631;color:#fff}'
++'body{display:flex;justify-content:center;align-items:center;align-content:center}'
++'div{width:490px;height:650px}'
++'input{display:inline-block;padding:0;border:0;color:#000;width:40px;height:40px;margin:0}'
++'input[type=range]{width:150px;height:auto}'
++'input:disabled{color:#666}'
++'.bu input{background:#f88}'
++'.ok input{background:#3f4}'
++'i,f{display:inline-block;width:40px}'
++'i{height:40px}'
++'e{display:block;width:40px;height:40px}'
 ;
 
+// console.log(ht)
 
+b.innerHTML = ht
 
-var ht = '<c><d>'
-for(var j=0; j<81; j++) {
-	ht += '<i><input name=c' + j + ' maxlength=1></i>'
-	if (j % 3 == 2) ht += '<i></i>'
-	if (j % 27 == 26) ht += '<e></e>'
-}
-ht += '</c></d><style>' + CSS
-
-b.innerHTML = ht;
-
-all = document.all
-
-for(var j=0; j<81; j++) {
-	var e = all['c' + j];
-	var v = g2[j]
-	e.value = v
-	e.disabled = (v != ' ')
-}
-
-function evaluate() {
-	var empty = 0
-	var wrong = 0
-	for(var j=0; j<81; j++) {
+C = () => {
+	n1 = 0 // empty
+	n2 = 0 // wrong
+	j=81;
+	while(j--) {
 		var e = ~~all['c' + j].value;
-		// console.log('comparing', e, grid[j])
-		if (e != grid[j]) {
-			wrong ++;
-		}
-		if (e == 0) {
-			empty ++;
-		}
-		// g2[j][i] = e.value
+		if (e != grid[j]) n2 ++;
+		if (e < 1) n1 ++;
 	}
-	// console.log('empty='+empty+', wrong='+wrong)
-	if (empty === 0) {
-		if (wrong > 0) {
-			b.className = 'bu'
-		} else {
-			b.className = 'ok'
-		}
-	} else {
-		b.className = ''
-	}
+	b.className = n1 ? '' : (n2 ? 'bu' : 'ok')
 }
 
-evaluate()
+R = () => {
+	all = document.all
 
-b.addEventListener('keyup', evaluate)
-b.addEventListener('blur', evaluate)
+	grid = []
+	n1 = 0
+	for(j=0; j<9; j++)
+		for(var i=0; i<9; i++, n1 ++)
+			grid[n1] = ((i + (j * 3) + ~~(j / 3)) % 9) + 1;
 
-b.addEventListener('click', e => {
-	// console.log('click', e)
-	if (e.target.nodeName === 'INPUT') {
-		e.target.select()
+	for(i=0; i<9+rx(99); i++) {
+		nb = rx(3) * 3;
+		n1 = rx(3) + nb;
+		n2 = rx(3) + nb;
+		for(j=0; j<9; [ grid[n1], grid[n2] ] = [ grid[n2], grid[n1] ], j++, n1 += 9, n2 += 9);
+		n1 = 9 * (rx(3) + nb)
+		n2 = 9 * (rx(3) + nb)
+		for(j=0; j<9; [ grid[n1], grid[n2] ] = [ grid[n2], grid[n1] ], j++, n1 ++, n2 ++);
 	}
-})
 
+	grid2 = grid.filter(r => true)
 
+	j = ~~all['df'].value + 2
+	while(--j) grid2[rx(81)] = ' '
 
+	j=81;
+	while(j--) {
+		e = all['c' + j];
+		v = grid2[j]
+		e.value = v
+		e.disabled = (v != ' ')
+	}
 
+	C()
+}
 
+R()
