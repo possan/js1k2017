@@ -22,15 +22,17 @@ rx = (m) => ~~(Math.random() * m)
 
 // Make UI
 
-H = '<div><h1>SUD1KU!</h1>'
+H = '<div><h1>SUD1KU</h1>'
 n1 = 0
 for(i=0; i<9; i++) {
+	H += '<g>'
 	for(j=0; j<9; j++) {
 		H += '<input name=c' + n1 + ' onclick=select() onkeyup=C()>'
 		if (j == 2 || j == 5) H += '<f></f>'
 		n1 ++
 	}
-	if (i % 3 == 2) H += '<e></e>'
+	H += '</g>'
+	if (i % 3 == 2) H += '<g></g>'
 }
 
 b.innerHTML = H + 'Level: <input type=range id=d onchange=R() /><style>'
@@ -39,14 +41,13 @@ b.innerHTML = H + 'Level: <input type=range id=d onchange=R() /><style>'
 +'display:flex;'
 +'justify-content:center;'
 +'align-items:center}'
-
 +'body,input{font-size:25px;text-align:center}'
-+'div{width:520px}'
+// +'div{width:auto}'
 +'input{display:inline-block;color:0;width:40px;height:40px}'
 +'#d{width:150px;height:auto}'
 +'*:disabled{color:#aaa}'
 +'f{display:inline-block;width:40px}'
-+'e{display:block;height:40px}'
++'g{display:block;height:40px}'
 +'.n{background:#f88}'
 +'.y{background:#3f4}'
 
@@ -56,14 +57,14 @@ C = () => {
 	// Count empty fields and wrong fields
 	n1 = 0 // empty
 	n2 = 0 // wrong
-	j=81;
+	j=81
 	while(j--) {
-		var e = ~~all['c' + j].value;
-		if (e != grid[j]) n2 ++;
-		if (e < 1) n1 ++;
+		e = ~~all['c' + j].value
+		if (e != grid[j]) n2 ++
+		if (e < 1) n1 ++
 	}
 	// Update UI
-	j=81;
+	j=81
 	while(j--) {
 		all['c' + j].className = n1 ? ' ' : (n2 ? 'n' : 'y')
 	}
@@ -103,7 +104,7 @@ R = () => {
 	// Update UI
 	j=81;
 	while(j--) {
-		e = all['c' + j];
+		e = all['c' + j]
 		v = grid2[j]
 		e.value = v
 		e.disabled = v != ''
