@@ -1,17 +1,16 @@
-var all = document.all
+//
+// SUD1KU
+//
 
 // a = canvas;
 // b = window.body;
 // c = canvas context;
 // d = document;
+var all = document.all
 
-// SOD1KU
-
-var temp
 var nb
 var n1
 var n2
-var n3
 var i
 var j
 var grid
@@ -19,10 +18,11 @@ var grid2
 var e
 var v
 
-
 rx = (m) => ~~(Math.random() * m)
 
-H = '<div><h1>SOD1KU</h1>'
+// Make UI
+
+H = '<div><h1>SUD1KU!</h1>'
 n1 = 0
 for(i=0; i<9; i++) {
 	for(j=0; j<9; j++) {
@@ -33,26 +33,27 @@ for(i=0; i<9; i++) {
 	if (i % 3 == 2) H += '<e></e>'
 }
 
-H += 'Level: <input type=range id=d onchange=R() /><style>'
+b.innerHTML = H + 'Level: <input type=range id=d onchange=R() /><style>'
 
 +'body{background:#eee;'
 +'display:flex;'
 +'justify-content:center;'
 +'align-items:center}'
-+'body,input{font:25px serif;text-align:center}'
-+'div{width:510px}'
+
++'body,input{font-size:25px;text-align:center}'
++'div{width:520px}'
 +'input{display:inline-block;color:0;width:40px;height:40px}'
 +'#d{width:150px;height:auto}'
-// +'*:disabled{color:666}'
++'*:disabled{color:#aaa}'
 +'f{display:inline-block;width:40px}'
 +'e{display:block;height:40px}'
 +'.n{background:#f88}'
 +'.y{background:#3f4}'
-;
 
-b.innerHTML = H
 
+// Check input
 C = () => {
+	// Count empty fields and wrong fields
 	n1 = 0 // empty
 	n2 = 0 // wrong
 	j=81;
@@ -61,13 +62,14 @@ C = () => {
 		if (e != grid[j]) n2 ++;
 		if (e < 1) n1 ++;
 	}
+	// Update UI
 	j=81;
 	while(j--) {
-		e = all['c' + j]
-		e.className = n1 ? ' ' : (n2 ? 'n' : 'y')
+		all['c' + j].className = n1 ? ' ' : (n2 ? 'n' : 'y')
 	}
 }
 
+// Swap two rows or columns
 S = (nd, nm) => {
 	nb = rx(3) * 3;
 	n1 = nm * (rx(3) + nb)
@@ -75,23 +77,30 @@ S = (nd, nm) => {
 	for(j=0; j<9; [ grid[n1], grid[n2] ] = [ grid[n2], grid[n1] ], j++, n1 += nd, n2 += nd);
 }
 
+// Reset game
 R = () => {
+
+	// Generate baseline
 	grid = []
 	n1 = 0
 	for(j=0; j<9; j++)
 		for(i=0; i<9; i++, n1++)
 			grid[n1] = ((i + (j * 3) + ~~(j / 3)) % 9) + 1;
 
+	// Shuffle it
 	for(i=0; i<9+rx(99); i++) {
 		S(9,1)
 		S(1,9)
 	}
 
+	// Make copy
 	grid2 = grid.map(r => r)
 
+	// Add holes
 	j = ~~all['d'].value + 2
 	while(--j) grid2[rx(81)] = ''
 
+	// Update UI
 	j=81;
 	while(j--) {
 		e = all['c' + j];
@@ -100,7 +109,9 @@ R = () => {
 		e.disabled = v != ''
 	}
 
+	// Check inputs / update ui again
 	C()
 }
 
+// Reset game on start up
 R()
