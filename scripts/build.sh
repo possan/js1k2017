@@ -22,12 +22,12 @@ cat src/html/shim.html | \
 figlet -fnancyj -w800 $(stat -f "%z" tmp/all.min.js)b min
 
 # just crush
-node scripts/jscrushish.js tmp/all.js tmp/all.crush.js >/dev/null
+#node scripts/jscrushish.js tmp/all.js tmp/all.crush.js >/dev/null
 
-cat src/html/shim.html | \
-	sed -e '/{CODE}/ {' -e 'r tmp/all.crush.js' -e 'D' -e '}' | \
-	sed -e 's/{SIZE}/'$(stat -f "%z" tmp/all.crush.js)'/g' > \
-	build/output-crushed.html
+#cat src/html/shim.html | \
+#	sed -e '/{CODE}/ {' -e 'r tmp/all.crush.js' -e 'D' -e '}' | \
+#	sed -e 's/{SIZE}/'$(stat -f "%z" tmp/all.crush.js)'/g' > \
+#	build/output-crushed.html
 
 # uglify+crush
 node scripts/jscrushish.js tmp/all.min.js tmp/all.min.crush.js >/dev/null

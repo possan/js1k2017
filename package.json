@@ -13,6 +13,7 @@
   "devDependencies": {
     "babel-cli": "^6.22.2",
     "babel-plugin-minify-mangle-names": "0.0.7",
-    "babel-plugin-transform-dead-code-elimination": "^2.2.2"
+    "babel-plugin-transform-dead-code-elimination": "^2.2.2",
+    "babel-plugin-transform-string-join": "^1.0.0"
   }
 }
